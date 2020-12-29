@@ -87,11 +87,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             parentNode.addChildNode(createNode(from: planet))
         }
         
-        //Sunlight
-        
+        //Light
+        let light = SCNLight()
+        light.type = .omni
+        parentNode.light = light 
         
         //Stars
         
+        
+        // Add parent node to our solar system
+        sceneView.scene.rootNode.addChildNode(parentNode)
         
     }
     
@@ -118,7 +123,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
 }
 
-
+//MARK:- Extensions
 extension Int {
     var degreesToRadians: CGFloat{
         return CGFloat(self) * .pi/180
