@@ -123,6 +123,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         parentNode.addChildNode(planetNode)
         
+        //For saturn rings
+        if planet.name == "saturn" {
+            let ringGeometry = SCNTube(innerRadius: 1.2, outerRadius: 1.8, height: 0.05)
+            ringGeometry.firstMaterial?.diffuse.contents = UIColor.darkGray
+            
+            //add angle to the ring
+            let ringNode = SCNNode(geometry: ringGeometry)
+            ringNode.eulerAngles.x = Float(-10.degreesToRadians)
+            
+            //add ringNode to planet Node (saturn)
+            planetNode.addChildNode(ringNode)
+        }
+        
         return parentNode
     }
 
