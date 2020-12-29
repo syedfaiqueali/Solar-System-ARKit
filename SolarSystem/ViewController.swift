@@ -130,7 +130,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             //add angle to the ring
             let ringNode = SCNNode(geometry: ringGeometry)
-            ringNode.eulerAngles.x = Float(-10.degreesToRadians)
+            ringNode.eulerAngles.x = Float(10.degreesToRadians)
             
             //add ringNode to planet Node (saturn)
             planetNode.addChildNode(ringNode)
