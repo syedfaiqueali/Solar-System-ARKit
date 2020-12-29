@@ -87,13 +87,18 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             parentNode.addChildNode(createNode(from: planet))
         }
         
-        //Light
+        //Add Light
         let light = SCNLight()
         light.type = .omni
         parentNode.light = light 
         
-        //Stars
+        //Add Stars
+        guard let stars = SCNParticleSystem(named: "stars.scnp", inDirectory: nil) else {return}
+        parentNode.addParticleSystem(stars)
         
+        //Add Sun
+        guard let sun = SCNParticleSystem(named: "sun.scnp", inDirectory: nil) else {return}
+        parentNode.addParticleSystem(sun)
         
         // Add parent node to our solar system
         sceneView.scene.rootNode.addChildNode(parentNode)
