@@ -28,6 +28,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Set the scene to the view
         sceneView.scene = scene
+        
+        //Calling our func
+        createSolarSystem()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,5 +49,78 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Pause the view's session
         sceneView.session.pause()
     }
+    
+    //MARK:- Helper Functions
+    func createSolarSystem() {
+        //Parent Node
+        let parentNode = SCNNode()
+        parentNode.position.z = -1.5  //1.5m infront of us
+        
+        //Planets
+        let mercury = Planet(name: "mercury",
+                             radius: 0.14,
+                             rotation: 32.degreesToRadians,
+                             color: .orange,
+                             sunDistance: 1.3)
+        
+        let venus = Planet(name: "venus",
+                           radius: 0.35,
+                           rotation: 10.degreesToRadians,
+                           color: .cyan,
+                           sunDistance: 2)
+        
+        let earth = Planet(name: "earth",
+                           radius: 0.5,
+                           rotation: 18.degreesToRadians,
+                           color: .blue,
+                           sunDistance: 7)
+        
+        let saturn = Planet(name: "saturn",
+                            radius: 1,
+                            rotation: 12.degreesToRadians,
+                            color: .brown,
+                            sunDistance: 12)
+        
+        let planets = [mercury, venus, earth, saturn]
+        
+        for planet in planets {
+            parentNode.addChildNode(createNode(from: planet))
+        }
+        
+        //Sunlight
+        
+        
+        //Stars
+        
+        
+    }
+    
+    func createNode(from planet: Planet) -> SCNNode{
+        //Parent(sun) for rotation
+        let parentNode = SCNNode()
+        
+        //set a rotate action
+        let rotateAction = SCNAction.rotateBy(x: 0, y: planet.rotation, z: 0, duration: 1)
+        parentNode.runAction(.repeatForever(rotateAction))
+        
+        //setting geometry of a planet
+        let sphereGeometry = SCNSphere(radius: planet.radius)
+        sphereGeometry.firstMaterial?.diffuse.contents = planet.color
+        
+        let planetNode = SCNNode(geometry: sphereGeometry)
+        planetNode.position.z = -planet.sunDistance
+        planetNode.name = planet.name
+        
+        parentNode.addChildNode(planetNode)
+        
+        return parentNode
+    }
 
+}
+
+
+extension Int {
+    var degreesToRadians: CGFloat{
+        return CGFloat(self) * .pi/180
+    }
 }
